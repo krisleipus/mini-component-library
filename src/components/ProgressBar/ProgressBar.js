@@ -12,44 +12,23 @@ const HEIGHTS = {
 };
 
 const BaseWrapper = styled.div`
-  progress[value] {
-    --background-color: ${COLORS.transparentGray15};
-    --bar-color: ${COLORS.primary};
-
-    /* reset default styles */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border: none;
-
-    width: 370px;
-    height: var(--height);
-    background: var(--background-color);
-    border-radius: 4px;
-    box-shadow: inset 0px 2px 4px ${COLORS.transparentGray35};
-  }
-
-  progress[value]::-moz-progress-bar {
-    background: var(--bar-color);
-    border-radius: 4px var(--border-right-radius) var(--border-right-radius) 4px;
-  }
-
-  progress[value]::-webkit-progress-bar {
-    background: var(--background-color);
-    border-radius: 4px;
-  }
-
-  progress[value]::-webkit-progress-value {
-    background: var(--bar-color);
-    border-radius: 4px var(--border-right-radius) var(--border-right-radius) 4px;
-  }
+  width: 370px;
+  height: var(--height);
+  background-color: ${COLORS.transparentGray15};
+  border-radius: 4px;
+  box-shadow: inset 0px 2px 4px ${COLORS.transparentGray35};
 `;
 
 const LargeWrapper = styled(BaseWrapper)`
-  progress[value] {
-    padding: 4px;
-    border-radius: 8px;
-  }
+  padding: 4px;
+  border-radius: 8px;
+`;
+
+const Fill = styled.div`
+  background-color: ${COLORS.primary};
+  height: 100%;
+  width: var(--fill-width);
+  border-radius: 4px var(--border-right-radius) var(--border-right-radius) 4px;
 `;
 
 const RIGHT_RADIUS_START = 98;
@@ -71,13 +50,18 @@ const ProgressBar = ({ value, size }) => {
   }
   return (
     <Wrapper
-      style={{
-        "--height": height + "px",
-        "--fill-width": clampedValue + "%",
-        "--border-right-radius": rightRadius + "px",
-      }}
+      style={{ "--height": height + "px" }}
+      role="progressbar"
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={clampedValue}
     >
-      <progress value={clampedValue} max={100} min={0} />
+      <Fill
+        style={{
+          "--fill-width": clampedValue + "%",
+          "--border-right-radius": rightRadius + "px",
+        }}
+      ></Fill>
     </Wrapper>
   );
 };
